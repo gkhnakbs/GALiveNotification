@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Your Food</string>
+    <string name="app_title">GALiveNotification</string>
+
+    <string name="order_placed">Sipariş verildi</string>
+    <string name="change_status_bar_icon_color">Durum Çubuğu Simge Rengini Değiştir</string>
+    <string name="send_notification">Bildirim Gönder</string>
+
+    <string name="promoted_notifications_disabled_title">⚠️ Promoted Notifications Devre Dışı</string>
+    <string name="promoted_notifications_permission_hint">Live Notification özelliğinin tam çalışması için &quot;%1$s&quot; iznini açmalısınız.</string>
+    <string name="open_settings_button">Ayarlara Git</string>
+    <string name="promoted_settings_toast_open">&quot;%1$s&quot; ayarını açın</string>
+    <string name="promoted_settings_toast_find_live_updates">Bildirim ayarlarında &quot;%1$s&quot; seçeneğini bulun ve açın</string>
+    <string name="promoted_settings_toast_manual">Manuel olarak: Ayarlar &gt; Bildirimler &gt; %1$s &gt; %2$s</string>
+    <string name="promoted_manual_instructions">Manuel Aktifleştirme:\n1. Ayarlar &gt; Bildirimler &gt; %1$s\n2. &quot;%2$s&quot; seçeneğini açın\n3. Uygulamaya geri dönün</string>
+    <string name="permission_granted">İzin Verildi</string>
+    <string name="permission_denied">İzin Reddedildi</string>
+    <string name="live_updates_label">Live Updates</string>
+    <string name="promoted_notifications_label">Promoted Notifications</string>
+
+    <string name="channel_name">Live Updates Kanalı</string>
+    <string name="channel_description">Sipariş takibi için canlı güncellemeler</string>
+
+    <string name="order_status_initializing">Onaylanıyor</string>
+    <string name="order_status_preparing">Hazırlanıyor</string>
+    <string name="order_status_enroute">Yolda</string>
+    <string name="order_status_arriving">Kapıda</string>
+    <string name="order_status_complete">Tamamlandı</string>
+
+    <string name="order_initializing_content">Sipariş onaylanıyor…</string>
+    <string name="order_initializing_ticker">Siparişiniz onaylanıyor!</string>
+    <string name="order_preparing_content">Hazırlanıyor</string>
+    <string name="order_preparing_ticker">Siparişiniz hazırlanmaya başlandı!</string>
+    <string name="order_enroute_content">Yolda</string>
+    <string name="order_enroute_ticker">Kurye siparişiniz ile yola çıktı!</string>
+    <string name="order_arriving_content">Kapınızda</string>
+    <string name="order_arriving_ticker">Siparişiniz kapınıza bırakıldı!</string>
+    <string name="order_complete_content">Tamamlandı</string>
+    <string name="order_complete_ticker">Siparişiniz başarıyla tamamlandı!</string>
+
+    <string name="notification_action_rate_delivery">Teslimatı Değerlendir</string>
+</resources>

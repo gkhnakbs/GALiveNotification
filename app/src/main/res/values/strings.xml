@@ -1,3 +1,42 @@
 <resources>
-    <string name="app_name">GALiveNotification</string>
+    <string name="app_name">Your Food</string>
+    <string name="app_title">GALiveNotification</string>
+
+    <string name="order_placed">Order placed</string>
+    <string name="change_status_bar_icon_color">Change Status Bar Icon Color</string>
+    <string name="send_notification">Send Notification</string>
+
+    <string name="promoted_notifications_disabled_title">⚠️ Promoted Notifications Disabled</string>
+    <string name="promoted_notifications_permission_hint">To fully enable Live Notification, you must enable &quot;%1$s&quot; permission.</string>
+    <string name="open_settings_button">Go to Settings</string>
+    <string name="promoted_settings_toast_open">Open &quot;%1$s&quot; settings</string>
+    <string name="promoted_settings_toast_find_live_updates">In notification settings, find and enable &quot;%1$s&quot;.</string>
+    <string name="promoted_settings_toast_manual">Manually: Settings &gt; Notifications &gt; %1$s &gt; %2$s</string>
+    <string name="promoted_manual_instructions">Manual Activation:\n1. Settings &gt; Notifications &gt; %1$s\n2. Enable &quot;%2$s&quot;\n3. Return to the app</string>
+    <string name="permission_granted">Permission Granted</string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="live_updates_label">Live Updates</string>
+    <string name="promoted_notifications_label">Promoted Notifications</string>
+
+    <string name="channel_name">Live Updates Channel</string>
+    <string name="channel_description">Live updates for order tracking</string>
+
+    <string name="order_status_initializing">Confirming</string>
+    <string name="order_status_preparing">Preparing</string>
+    <string name="order_status_enroute">On the way</string>
+    <string name="order_status_arriving">At the door</string>
+    <string name="order_status_complete">Completed</string>
+
+    <string name="order_initializing_content">Order is being confirmed…</string>
+    <string name="order_initializing_ticker">Your order is being confirmed!</string>
+    <string name="order_preparing_content">Preparing</string>
+    <string name="order_preparing_ticker">Your order is being prepared!</string>
+    <string name="order_enroute_content">On the way</string>
+    <string name="order_enroute_ticker">Your courier is on the way!</string>
+    <string name="order_arriving_content">At your door</string>
+    <string name="order_arriving_ticker">Your order has arrived at your door!</string>
+    <string name="order_complete_content">Completed</string>
+    <string name="order_complete_ticker">Your order has been completed successfully!</string>
+
+    <string name="notification_action_rate_delivery">Rate delivery</string>
 </resources>

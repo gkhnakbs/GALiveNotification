@@ -3,7 +3,6 @@ package com.gkhnakbs.galivenotification
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
@@ -12,12 +11,12 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -41,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
@@ -49,7 +49,6 @@ import com.gkhnakbs.galivenotification.ui.theme.LocalStatusBarController
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.BAKLAVA)
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +62,7 @@ class MainActivity : ComponentActivity() {
             val scope = rememberCoroutineScope()
             val snackbarHostState = remember { SnackbarHostState() }
             val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+            val orderPlacedMessage = stringResource(R.string.order_placed)
 
             LiveNotificationPermission()
 
@@ -79,7 +79,7 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         TopAppBar(
                             title = {
-                                Text(text = "GALiveNotification")
+                                Text(text = stringResource(R.string.app_title))
                             },
                             modifier = Modifier.fillMaxWidth(),
                             scrollBehavior = scrollBehavior,
@@ -95,7 +95,7 @@ class MainActivity : ComponentActivity() {
                         onStartNotification = {
                             this@MainActivity.onCheckout()
                             scope.launch {
-                                snackbarHostState.showSnackbar("Order placed")
+                                snackbarHostState.showSnackbar(orderPlacedMessage)
                             }
                         })
                 }
@@ -104,7 +104,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @Composable
 fun LiveNotificationMainScreen(
     innerPadding: PaddingValues,
@@ -114,6 +113,7 @@ fun LiveNotificationMainScreen(
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .background(color = Color.Black)
             .padding(innerPadding)
             .consumeWindowInsets(innerPadding),
@@ -123,19 +123,26 @@ fun LiveNotificationMainScreen(
         FilledTonalButton(onClick = {
             statusBarController?.setStatusBarIconColors(false)
         }) {
-            Text(text = "Change Status Bar Icon Color")
+            Text(text = stringResource(R.string.change_status_bar_icon_color))
         }
         FilledTonalButton(onClick = onStartNotification) {
-            Text(text = "Send Notification")
+            Text(text = stringResource(R.string.send_notification))
         }
         NotificationPostPromotedPermission()
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 @Composable
 fun NotificationPostPromotedPermission() {
     val context = LocalContext.current
+    val promotedNotificationsLabel = stringResource(R.string.promoted_notifications_label)
+    val liveUpdatesLabel = stringResource(R.string.live_updates_label)
+    val appName = stringResource(R.string.app_name)
+    val toastOpen = stringResource(R.string.promoted_settings_toast_open, liveUpdatesLabel)
+    val toastFindLiveUpdates =
+        stringResource(R.string.promoted_settings_toast_find_live_updates, liveUpdatesLabel)
+    val toastManual =
+        stringResource(R.string.promoted_settings_toast_manual, appName, liveUpdatesLabel)
     var isPostPromotionsEnabled by remember { mutableStateOf(LiveNotificationManager.isPostPromotionsEnabled()) }
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
         isPostPromotionsEnabled = LiveNotificationManager.isPostPromotionsEnabled()
@@ -147,12 +154,15 @@ fun NotificationPostPromotedPermission() {
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = "⚠️ Promoted Notifications Devre Dışı",
+                text = stringResource(R.string.promoted_notifications_disabled_title),
                 modifier = Modifier.padding(horizontal = 10.dp),
                 color = Color.Yellow
             )
             Text(
-                text = "Live Notification özelliğinin tam çalışması için 'Promoted Notifications' iznini açmalısınız.",
+                text = stringResource(
+                    R.string.promoted_notifications_permission_hint,
+                    promotedNotificationsLabel
+                ),
                 modifier = Modifier.padding(horizontal = 10.dp),
                 color = Color.White.copy(alpha = 0.7f)
             )
@@ -171,7 +181,7 @@ fun NotificationPostPromotedPermission() {
                             context.startActivity(promotedIntent)
                             Toast.makeText(
                                 context,
-                                "✅ 'Promoted Notifications' ayarını açın",
+                                toastOpen,
                                 Toast.LENGTH_LONG
                             ).show()
                         } else {
@@ -187,7 +197,7 @@ fun NotificationPostPromotedPermission() {
                             context.startActivity(intent)
                             Toast.makeText(
                                 context,
-                                "📱 Bildirim ayarlarında 'Promoted Notifications' seçeneğini bulun ve açın",
+                                toastFindLiveUpdates,
                                 Toast.LENGTH_LONG
                             ).show()
                         } catch (_: Exception) {
@@ -196,22 +206,23 @@ fun NotificationPostPromotedPermission() {
                             context.startActivity(fallbackIntent)
                             Toast.makeText(
                                 context,
-                                "⚠️ Manuel olarak: Ayarlar > Bildirimler > GALiveNotification > Promoted Notifications",
+                                toastManual,
                                 Toast.LENGTH_LONG
                             ).show()
                         }
                     }
                 },
             ) {
-                Text(text = "⚙️ Ayarlara Git")
+                Text(text = stringResource(R.string.open_settings_button))
             }
 
             // Manuel aktifleştirme talimatları
             Text(
-                text = "📝 Manuel Aktifleştirme:\n" +
-                        "1. Ayarlar > Bildirimler > GALiveNotification\n" +
-                        "2. 'Promoted Notifications' seçeneğini açın\n" +
-                        "3. Uygulamaya geri dönün",
+                text = stringResource(
+                    R.string.promoted_manual_instructions,
+                    appName,
+                    liveUpdatesLabel
+                ),
                 modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp),
                 color = Color.White.copy(alpha = 0.5f),
                 style = androidx.compose.material3.MaterialTheme.typography.bodySmall
@@ -223,14 +234,24 @@ fun NotificationPostPromotedPermission() {
 @Composable
 fun LiveNotificationPermission() {
     val context = LocalContext.current
+    val permissionGrantedText = stringResource(R.string.permission_granted)
+    val permissionDeniedText = stringResource(R.string.permission_denied)
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
     ) {
         if (it) {
-            Toast.makeText(context, "Permission Granted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                permissionGrantedText,
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
-            Toast.makeText(context, "Permission Denied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                permissionDeniedText,
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -240,10 +261,8 @@ fun LiveNotificationPermission() {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.BAKLAVA)
 fun Context.onCheckout() {
     // Foreground Service'i başlat
     val serviceIntent = Intent(this, LiveNotificationService::class.java)
     startForegroundService(serviceIntent)
 }
-
