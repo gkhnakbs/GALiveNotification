@@ -262,7 +262,7 @@ fun LiveNotificationPermission() {
 }
 
 fun Context.onCheckout() {
-    // Foreground Service'i başlat
+    // Servisi başlat (zaten çalışıyorsa onStartCommand tekrar çağrılır)
     val serviceIntent = Intent(this, LiveNotificationService::class.java)
     startForegroundService(serviceIntent)
 }

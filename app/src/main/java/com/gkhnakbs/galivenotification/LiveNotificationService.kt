@@ -24,26 +24,42 @@ class LiveNotificationService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // Önceki tüm bekleyen handler'ları temizle
+        runnables.forEach { handler.removeCallbacks(it) }
+        runnables.clear()
+
+        // İlk bildirimi hemen al ve göster
         val initialNotification = LiveNotificationManager.getInitialNotification()
 
-        startForeground(
-            LiveNotificationManager.NOTIFICATION_ID,
-            initialNotification,
-            ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
-        )
+        try {
+            startForeground(
+                LiveNotificationManager.NOTIFICATION_ID,
+                initialNotification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+            )
+        } catch (_: Exception) {
+            stopSelf()
+            return START_NOT_STICKY
+        }
 
-        // Bildirimleri başlat
+        // Sonraki bildirimleri zamanla (ilk bildirim zaten gösterildi, delay=0 olanı atla)
         LiveNotificationManager.startWithService(
             onScheduleNotification = { notification, delay ->
-                val runnable = Runnable {
-                    val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                    notificationManager.notify(LiveNotificationManager.NOTIFICATION_ID, notification)
+                // delay=0 olan ilk bildirim zaten startForeground ile gösterildi
+                if (delay > 0) {
+                    val runnable = Runnable {
+                        val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                        nm.notify(LiveNotificationManager.NOTIFICATION_ID, notification)
+                    }
+                    runnables.add(runnable)
+                    handler.postDelayed(runnable, delay)
                 }
-                runnables.add(runnable)
-                handler.postDelayed(runnable, delay)
             },
             onComplete = {
-                stopSelf()
+                // Servisi durdur
+                handler.postDelayed({
+                    stopSelf()
+                }, 2000)
             }
         )
 

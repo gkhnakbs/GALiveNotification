@@ -24,6 +24,10 @@ object LiveNotificationManager {
 
     private lateinit var appContext: Context
 
+    // Önceki completion handler'ı iptal etmek için
+    private var completionRunnable: Runnable? = null
+    private val mainHandler = Handler(Looper.getMainLooper())
+
     const val CHANNEL_ID = "live_notification_channel_id"
     const val NOTIFICATION_ID = 1234567
 
@@ -185,6 +189,9 @@ object LiveNotificationManager {
         onScheduleNotification: (Notification, Long) -> Unit,
         onComplete: () -> Unit,
     ) {
+        // Önceki completion handler varsa iptal et
+        completionRunnable?.let { mainHandler.removeCallbacks(it) }
+
         OrderState.entries.forEach { state ->
             val notification = state.buildNotification().build()
 
@@ -203,9 +210,8 @@ object LiveNotificationManager {
 
         // Tüm bildirimler gösterildikten sonra servisi durdur
         val lastDelay = OrderState.entries.last().delay + 3000 // Son bildirimden 3 saniye sonra
-        Handler(Looper.getMainLooper()).postDelayed({
-            onComplete()
-        }, lastDelay)
+        completionRunnable = Runnable { onComplete() }
+        mainHandler.postDelayed(completionRunnable!!, lastDelay)
     }
 
     fun isPostPromotionsEnabled(): Boolean {
