@@ -212,7 +212,7 @@ OrderStateData(
 ### Ana Ekran
 
 <p align="center">
-  <img src="screenshots/main_screen.jpeg" width="945" alt="Ana Ekran">
+  <img src="screenshots/main_screen.jpeg" width="300" alt="Ana Ekran">
 </p>
 
 - Durum çubuğu renk değiştirme butonu
