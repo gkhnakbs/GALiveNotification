@@ -223,25 +223,25 @@ OrderStateData(
 ### Bildirim Çubuğu - Genişletilmiş Görünüm
 
 <p align="center">
-  <img src="screenshots/expanded_bar_notification_1.jpeg" width="945" alt="Genişletilmiş Bildirim 1">
-  <img src="screenshots/expanded_bar_notification_2.jpeg" width="945" alt="Genişletilmiş Bildirim 2">
-  <img src="screenshots/expanded_bar_notification_3.jpeg" width="945" alt="Genişletilmiş Bildirim 3">
+  <img src="screenshots/expanded_bar_notification_1.jpeg" width="300" alt="Genişletilmiş Bildirim 1">
+  <img src="screenshots/expanded_bar_notification_2.jpeg" width="300" alt="Genişletilmiş Bildirim 2">
+  <img src="screenshots/expanded_bar_notification_3.jpeg" width="300" alt="Genişletilmiş Bildirim 3">
 </p>
 
 ### Kilitle Ekranında Bildirim
 
 <p align="center">
-  <img src="screenshots/lock_screen_1.jpeg" width="945" alt="Kilit Ekranı 1">
-  <img src="screenshots/lock_screen_2.jpeg" width="945" alt="Kilit Ekranı 2">
-  <img src="screenshots/lock_screen_3.jpeg" width="945" alt="Kilit Ekranı 3">
+  <img src="screenshots/lock_screen_1.jpeg" width="300" alt="Kilit Ekranı 1">
+  <img src="screenshots/lock_screen_2.jpeg" width="300" alt="Kilit Ekranı 2">
+  <img src="screenshots/lock_screen_3.jpeg" width="300" alt="Kilit Ekranı 3">
 </p>
 
 ### Devam Eden Bildirimler
 
 <p align="center">
-  <img src="screenshots/ongoing_notification1.jpeg" width="945" alt="Devam Eden Bildirim 1">
-  <img src="screenshots/ongoing_notification2.jpeg" width="945" alt="Devam Eden Bildirim 2">
-  <img src="screenshots/ongoing_notification3.jpeg" width="945" alt="Devam Eden Bildirim 3">
+  <img src="screenshots/ongoing_notification1.jpeg" width="300" alt="Devam Eden Bildirim 1">
+  <img src="screenshots/ongoing_notification2.jpeg" width="300" alt="Devam Eden Bildirim 2">
+  <img src="screenshots/ongoing_notification3.jpeg" width="300" alt="Devam Eden Bildirim 3">
 </p>
 
 ### Bildirim Özellikleri
