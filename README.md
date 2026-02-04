@@ -209,23 +209,42 @@ OrderStateData(
 
 ## 🎨 Ekran Görüntüleri
 
-![main_screen.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/main_screen.jpeg)
 ### Ana Ekran
+
+<p align="center">
+  <img src="screenshots/main_screen.jpeg" width="300" alt="Ana Ekran">
+</p>
+
 - Durum çubuğu renk değiştirme butonu
 - Foreground service ile bildirim gönderme butonu
 - Direkt bildirim gönderme butonu
 - Promoted notifications izin durumu (varsa)
 
-![expanded_bar_notification_1.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/expanded_bar_notification_1.jpeg)
-![expanded_bar_notification_2.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/expanded_bar_notification_2.jpeg)
-![expanded_bar_notification_3.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/expanded_bar_notification_3.jpeg)
-![lock_screen_1.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/lock_screen_1.jpeg)
-![lock_screen_2.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/lock_screen_2.jpeg)
-![lock_screen_3.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/lock_screen_3.jpeg)
-![ongoing_notification1.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/ongoing_notification1.jpeg)
-![ongoing_notification2.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/ongoing_notification2.jpeg)
-![ongoing_notification3.jpeg](../../Desktop/Live%20Notification%20Assets/LiveNotificationScreenshots/ongoing_notification3.jpeg)
-### Bildirim Görünümü
+### Bildirim Çubuğu - Genişletilmiş Görünüm
+
+<p align="center">
+  <img src="screenshots/expanded_bar_notification_1.jpeg" width="300" alt="Genişletilmiş Bildirim 1">
+  <img src="screenshots/expanded_bar_notification_2.jpeg" width="300" alt="Genişletilmiş Bildirim 2">
+  <img src="screenshots/expanded_bar_notification_3.jpeg" width="300" alt="Genişletilmiş Bildirim 3">
+</p>
+
+### Kilitle Ekranında Bildirim
+
+<p align="center">
+  <img src="screenshots/lock_screen_1.jpeg" width="300" alt="Kilit Ekranı 1">
+  <img src="screenshots/lock_screen_2.jpeg" width="300" alt="Kilit Ekranı 2">
+  <img src="screenshots/lock_screen_3.jpeg" width="300" alt="Kilit Ekranı 3">
+</p>
+
+### Devam Eden Bildirimler
+
+<p align="center">
+  <img src="screenshots/ongoing_notification1.jpeg" width="300" alt="Devam Eden Bildirim 1">
+  <img src="screenshots/ongoing_notification2.jpeg" width="300" alt="Devam Eden Bildirim 2">
+  <img src="screenshots/ongoing_notification3.jpeg" width="300" alt="Devam Eden Bildirim 3">
+</p>
+
+### Bildirim Özellikleri
 - Uygulama ikonu ve adı
 - Sipariş durum başlığı
 - Durum açıklaması
@@ -293,83 +312,6 @@ Android Live Update Notification özelliğini keşfetmeme ilham veren Android ge
 ---
 
 ⭐ Projeyi beğendiyseniz yıldız vermeyi unutmayın!
-
-### LiveNotificationService
-
-Android Foreground Service olarak çalışan servis:
-
-- Bildirimlerin arka planda gösterilmesini sağlar
-- İlişkili runnables'ları yönetir
-- Servis yaşam döngüsüyle bildirim gösterimi senkronizasyon
-- Handler üzerinden zamanlı güncellemeler
-
-## 🚀 Nasıl Kullanılır?
-
-### 1. Temel Kurulum
-
-Uygulamanızın Activity'sinde veya Service'inde:
-
-```kotlin
-// NotificationManager'ı alın
-val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-// LiveNotificationManager'ı initialize edin
-LiveNotificationManager.initialize(applicationContext, notificationManager)
-```
-
-### 2. Servisi Başlatma
-
-```kotlin
-val intent = Intent(context, LiveNotificationService::class.java)
-if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-    context.startForegroundService(intent)
-} else {
-    context.startService(intent)
-}
-```
-
-### 3. Adımsal Bildirimleri Kontrol Etme
-
-LiveNotificationService, `LiveNotificationManager.startWithService()` içinde otomatik olarak:
-
-- Belirli zaman aralıklarında bildirimleri günceller
-- Her adım tamamlandığında yeni bir bildirim gösterir
-- Tamamlandığında servisi durdurur
-
-```kotlin
-LiveNotificationManager.startWithService(
-    onScheduleNotification = { notification, delay ->
-        // Bildirim gösterilecek
-    },
-    onComplete = {
-        // Tüm adımlar tamamlandı
-    }
-)
-```
-
-### 4. AndroidManifest.xml İzinleri
-
-```xml
-<!-- Foreground Service izni -->
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
-
-<!-- Bildirim izni (Android 13+) -->
-<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-<!-- Service tanımlama -->
-<service
-    android:name="com.gkhnakbs.galivenotification.LiveNotificationService"
-    android:foregroundServiceType="specialUse"
-    android:exported="false" />
-```
-
-## ✨ Özellikler
-
-- ✅ **Compose UI Desteği**: Modern Android Compose ile UI bileşenleri
-- ✅ **Dinamik İçerik**: Bildirimleri gerçek zamanda güncelleyebilme
-- ✅ **İlerleme Gösterimi**: Segmentli ilerleme barı ve yüzde gösterimi
-- ✅ **Zengin Görseller**: Büyük simgeler ve renkli tasarım
 - ✅ **Zaman Gösterimi**: Kronometreyle sayaç gösterimi
 - ✅ **Otomatik Zamanlama**: Handler üzerinden otomatik adım ilerlemesi
 - ✅ **Esneklik**: Farklı durum ve senaryolara özelleştirilebilir
