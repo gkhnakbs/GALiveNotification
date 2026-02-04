@@ -312,7 +312,6 @@ Android Live Update Notification özelliğini keşfetmeme ilham veren Android ge
 ---
 
 ⭐ Projeyi beğendiyseniz yıldız vermeyi unutmayın!
-- ✅ **Zaman Gösterimi**: Kronometreyle sayaç gösterimi
 - ✅ **Otomatik Zamanlama**: Handler üzerinden otomatik adım ilerlemesi
 - ✅ **Esneklik**: Farklı durum ve senaryolara özelleştirilebilir
 
