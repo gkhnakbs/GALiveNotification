@@ -97,6 +97,12 @@ class MainActivity : ComponentActivity() {
                             scope.launch {
                                 snackbarHostState.showSnackbar(orderPlacedMessage)
                             }
+                        },
+                        onStartNotificationWithoutService = {
+                            LiveNotificationManager.startNotificationWithoutService()
+                            scope.launch {
+                                snackbarHostState.showSnackbar(orderPlacedMessage)
+                            }
                         })
                 }
             }
@@ -108,6 +114,7 @@ class MainActivity : ComponentActivity() {
 fun LiveNotificationMainScreen(
     innerPadding: PaddingValues,
     onStartNotification: () -> Unit,
+    onStartNotificationWithoutService: () -> Unit,
 ) {
     val statusBarController = LocalStatusBarController.current
 
@@ -127,6 +134,9 @@ fun LiveNotificationMainScreen(
         }
         FilledTonalButton(onClick = onStartNotification) {
             Text(text = stringResource(R.string.send_notification))
+        }
+        FilledTonalButton(onClick = onStartNotificationWithoutService) {
+            Text(text = stringResource(R.string.send_notification_without_service))
         }
         NotificationPostPromotedPermission()
     }
@@ -169,14 +179,12 @@ fun NotificationPostPromotedPermission() {
             Button(
                 onClick = {
                     try {
-                        // Yöntem 1: ACTION_APP_NOTIFICATION_PROMOTION_SETTINGS (Android 15+)
                         val promotedIntent =
                             Intent("android.settings.APP_NOTIFICATION_PROMOTION_SETTINGS").apply {
                                 putExtra("android.provider.extra.APP_PACKAGE", context.packageName)
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             }
 
-                        // Intent'in handle edilebileceğini kontrol et
                         if (promotedIntent.resolveActivity(context.packageManager) != null) {
                             context.startActivity(promotedIntent)
                             Toast.makeText(
@@ -189,7 +197,6 @@ fun NotificationPostPromotedPermission() {
                         }
                     } catch (_: Exception) {
                         try {
-                            // Yöntem 2: Normal bildirim ayarları
                             val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
                                 putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -201,7 +208,6 @@ fun NotificationPostPromotedPermission() {
                                 Toast.LENGTH_LONG
                             ).show()
                         } catch (_: Exception) {
-                            // Yöntem 3: Genel ayarlar
                             val fallbackIntent = Intent(Settings.ACTION_SETTINGS)
                             context.startActivity(fallbackIntent)
                             Toast.makeText(
@@ -216,7 +222,6 @@ fun NotificationPostPromotedPermission() {
                 Text(text = stringResource(R.string.open_settings_button))
             }
 
-            // Manuel aktifleştirme talimatları
             Text(
                 text = stringResource(
                     R.string.promoted_manual_instructions,
@@ -262,7 +267,11 @@ fun LiveNotificationPermission() {
 }
 
 fun Context.onCheckout() {
-    // Servisi başlat (zaten çalışıyorsa onStartCommand tekrar çağrılır)
-    val serviceIntent = Intent(this, LiveNotificationService::class.java)
-    startForegroundService(serviceIntent)
+    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.notify(
+        LiveNotificationManager.NOTIFICATION_ID,
+        LiveNotificationManager.getInitialNotification()
+    )
+
+    startForegroundService(Intent(this, LiveNotificationService::class.java))
 }

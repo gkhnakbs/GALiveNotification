@@ -10,66 +10,60 @@ import android.os.Looper
 
 class LiveNotificationService : Service() {
 
-    private val handler = Handler(Looper.getMainLooper())
-    private val runnables = mutableListOf<Runnable>()
+    private val handler by lazy { Handler(Looper.getMainLooper()) }
+    private val scheduledRunnables = mutableListOf<Runnable>()
+    private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onCreate() {
         super.onCreate()
-
-        // LiveNotificationManager'ı initialize et
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         LiveNotificationManager.initialize(applicationContext, notificationManager)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // Önceki tüm bekleyen handler'ları temizle
-        runnables.forEach { handler.removeCallbacks(it) }
-        runnables.clear()
+        cancelAllScheduledTasks()
 
-        // İlk bildirimi hemen al ve göster
-        val initialNotification = LiveNotificationManager.getInitialNotification()
-
-        try {
-            startForeground(
-                LiveNotificationManager.NOTIFICATION_ID,
-                initialNotification,
-                ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
-            )
-        } catch (_: Exception) {
-            stopSelf()
-            return START_NOT_STICKY
-        }
-
-        // Sonraki bildirimleri zamanla (ilk bildirim zaten gösterildi, delay=0 olanı atla)
-        LiveNotificationManager.startWithService(
-            onScheduleNotification = { notification, delay ->
-                // delay=0 olan ilk bildirim zaten startForeground ile gösterildi
-                if (delay > 0) {
-                    val runnable = Runnable {
-                        val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                        nm.notify(LiveNotificationManager.NOTIFICATION_ID, notification)
-                    }
-                    runnables.add(runnable)
-                    handler.postDelayed(runnable, delay)
-                }
-            },
-            onComplete = {
-                // Servisi durdur
-                handler.postDelayed({
-                    stopSelf()
-                }, 2000)
-            }
+        startForeground(
+            LiveNotificationManager.NOTIFICATION_ID,
+            LiveNotificationManager.getInitialNotification(),
+            ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
         )
+
+        scheduleRemainingNotifications()
 
         return START_NOT_STICKY
     }
 
+    private fun scheduleRemainingNotifications() {
+        val states = LiveNotificationManager.getOrderStates()
+
+        states.drop(1).forEachIndexed { index, state ->
+            val isLastState = index == states.lastIndex - 1
+
+            val runnable = Runnable {
+                notificationManager.notify(
+                    LiveNotificationManager.NOTIFICATION_ID,
+                    LiveNotificationManager.buildNotificationForState(state)
+                )
+
+                if (isLastState) {
+                    handler.postDelayed({ stopSelf() }, 3000)
+                }
+            }
+
+            scheduledRunnables.add(runnable)
+            handler.postDelayed(runnable, state.delay)
+        }
+    }
+
+    private fun cancelAllScheduledTasks() {
+        scheduledRunnables.forEach { handler.removeCallbacks(it) }
+        scheduledRunnables.clear()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        // Tüm bekleyen handler'ları temizle
-        runnables.forEach { handler.removeCallbacks(it) }
-        runnables.clear()
+        cancelAllScheduledTasks()
     }
 }

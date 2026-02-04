@@ -4,7 +4,8 @@
 
     <string name="order_placed">Sipariş verildi</string>
     <string name="change_status_bar_icon_color">Durum Çubuğu Simge Rengini Değiştir</string>
-    <string name="send_notification">Bildirim Gönder</string>
+    <string name="send_notification">Bildirim Gönder (Foreground Service)</string>
+    <string name="send_notification_without_service">Bildirim Gönder (Direkt)</string>
 
     <string name="promoted_notifications_disabled_title">⚠️ Promoted Notifications Devre Dışı</string>
     <string name="promoted_notifications_permission_hint">Live Notification özelliğinin tam çalışması için &quot;%1$s&quot; iznini açmalısınız.</string>

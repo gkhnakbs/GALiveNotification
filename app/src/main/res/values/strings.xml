@@ -4,7 +4,8 @@
 
     <string name="order_placed">Order placed</string>
     <string name="change_status_bar_icon_color">Change Status Bar Icon Color</string>
-    <string name="send_notification">Send Notification</string>
+    <string name="send_notification">Send Notification (Foreground Service)</string>
+    <string name="send_notification_without_service">Send Notification (Direct)</string>
 
     <string name="promoted_notifications_disabled_title">⚠️ Promoted Notifications Disabled</string>
     <string name="promoted_notifications_permission_hint">To fully enable Live Notification, you must enable &quot;%1$s&quot; permission.</string>
