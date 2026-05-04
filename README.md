@@ -289,19 +289,9 @@ Sonuç: **Sıfır gecikme** ile bildirim gösterimi
 - 🇬🇧 İngilizce (varsayılan)
 - 🇹🇷 Türkçe
 
-Yeni dil eklemek için `res/values-{language_code}/strings.xml` dosyası oluşturun.
-
 ## 📝 Lisans
 
 Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.
-
-## 👤 Geliştirici
-
-**Gökhan Akbaş**
-
-## 🙏 Teşekkürler
-
-Android Live Update Notification özelliğini keşfetmeme ilham veren Android geliştirici topluluğuna teşekkürler!
 
 ## 📚 Kaynaklar
 
@@ -310,10 +300,6 @@ Android Live Update Notification özelliğini keşfetmeme ilham veren Android ge
 - [Jetpack Compose](https://developer.android.com/compose)
 
 ---
-
-⭐ Projeyi beğendiyseniz yıldız vermeyi unutmayın!
-- ✅ **Otomatik Zamanlama**: Handler üzerinden otomatik adım ilerlemesi
-- ✅ **Esneklik**: Farklı durum ve senaryolara özelleştirilebilir
 
 ## 📦 Gereksinimler
 
